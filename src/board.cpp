@@ -65,3 +65,8 @@ void Board::showBlock()
     }
 
 }
+
+void Board::downTetris()
+{
+    this->y++;
+}

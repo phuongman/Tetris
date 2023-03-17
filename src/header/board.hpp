@@ -16,6 +16,7 @@ public:
     void Init(SDL_Renderer* renderer);
     bool checkBorder(int x, int y);
     bool checkRotate(int x, int y);
+    void downTetris();
     void showBlock();
     void render();
 private:

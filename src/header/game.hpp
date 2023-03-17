@@ -17,6 +17,8 @@ public:
 
     Object arr_object[NEW_ELEMENT_OBJECT];
     Board board;
+    Uint32 prev_time = 0;
+    Uint32 curr_time = 0;
     Game(const char* title);
     void configResource();
     bool running();
@@ -25,6 +27,7 @@ public:
     void handleEvent();
     void display();
     void keyPresses();
+    void downBlock();
     void handleStatus();
 private:
     bool is_running = true;

@@ -32,14 +32,14 @@ void Block::rotate()
     for(int j = 0; j < 4; j++) this->matrix[i][j] = temp_matrix[j][3 - i];
 }
 
-// void Block::updateXY(int x, int y)
-// {
-//     this->xpos = x, this->ypos = y;
-//     for(int i = 0; i < 4; i++)
-//     {
-//         for(int j = 0; j < 4; j++) 
-//         {
-//             this->xy[i][j] = {xpos + j, ypos + i};
-//         }
-//     }
-// }
+void Block::updateXY(int x, int y)
+{
+    this->xpos = x, this->ypos = y;
+    for(int i = 0; i < 4; i++)
+    {
+        for(int j = 0; j < 4; j++) 
+        {
+            this->xy[i][j] = {xpos + j, ypos + i};
+        }
+    }
+}

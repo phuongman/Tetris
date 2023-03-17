@@ -5,6 +5,9 @@
 const int SCREEN_WIDTH = 1400;
 const int SCREEN_HEIGHT = 800;
 
+const int FPS = 60;
+const int FPS_time = 1000 / FPS;
+
 const int XPOS = (SCREEN_WIDTH - 350) / 2;
 const int YPOS = (SCREEN_HEIGHT - 700) / 2;
 
