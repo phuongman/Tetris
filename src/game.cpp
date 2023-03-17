@@ -100,11 +100,16 @@ void Game::keyPresses()
     if(this->board.checkBorder(x1, y1)) {
         this->board.x = x1;
         this->board.y = y1;
-        this->board.showBlock();
     }
-    else this->board.showBlock();
 }
-
+void Game::downBlock()
+{
+    this->curr_time = SDL_GetTicks();
+    if(this->curr_time - this->prev_time > 1000) {
+        this->board.y = this->board.y + 1;
+        this->prev_time = this->curr_time;
+    }
+}
 void Game::handleEvent()
 {
     if(e.type == SDL_QUIT)
@@ -119,6 +124,10 @@ void Game::handleStatus()
         SDL_PollEvent(&e);
         Game::handleEvent();
         Game::keyPresses();
+        Game::downBlock();
+        this->board.showBlock();
+        
+        Game::display();
     }
     // if(Game::status == GAME_PAUSE)
     // {
