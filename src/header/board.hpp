@@ -11,7 +11,7 @@ public:
     SDL_Point point[ROW][COLUM] = {{0}};
     Object brick[6];
     Block block;
-    int x = DIS_X, y = 0;
+    int x = DIS_X, y = DIS_Y;
     Board();
     void Init(SDL_Renderer* renderer);
     bool checkBorder(int x, int y);

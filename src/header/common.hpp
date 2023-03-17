@@ -12,9 +12,10 @@ const int XPOS = (SCREEN_WIDTH - 350) / 2;
 const int YPOS = (SCREEN_HEIGHT - 700) / 2;
 
 const int LENGTH_SQUARE = 35;
-const int ROW = 21;
-const int COLUM = 10;
+const int ROW = 22;
+const int COLUM = 12;
 const int DIS_X = (COLUM - 4) / 2;
+const int DIS_Y = 1;
 
 const int NEW_ELEMENT_OBJECT = 7;
 const int BACKGROUND = 0;

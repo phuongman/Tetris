@@ -106,7 +106,7 @@ void Game::downBlock()
 {
     this->curr_time = SDL_GetTicks();
     if(this->curr_time - this->prev_time > 1000) {
-        this->board.y = this->board.y + 1;
+        if(this->board.checkBorder(this->board.x, this->board.y + 1)) this->board.y = this->board.y + 1;
         this->prev_time = this->curr_time;
     }
 }
@@ -126,7 +126,7 @@ void Game::handleStatus()
         Game::keyPresses();
         Game::downBlock();
         this->board.showBlock();
-        
+
         Game::display();
     }
     // if(Game::status == GAME_PAUSE)
