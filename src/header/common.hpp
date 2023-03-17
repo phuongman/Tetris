@@ -9,7 +9,7 @@ const int XPOS = (SCREEN_WIDTH - 350) / 2;
 const int YPOS = (SCREEN_HEIGHT - 700) / 2;
 
 const int LENGTH_SQUARE = 35;
-const int ROW = 20;
+const int ROW = 21;
 const int COLUM = 10;
 const int DIS_X = (COLUM - 4) / 2;
 
@@ -32,3 +32,8 @@ const int TYPE_BLOCK[7][4] = {
                                 {2, 6, 10, 14}, //|
 };
 
+
+const int GAME_PLAYING = 0;
+const int GAME_PAUSE = 1;
+const int GAME_ONPAUSE = 2;
+const int GAME_OVER = 3;

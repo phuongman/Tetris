@@ -73,37 +73,73 @@ void Game::display()
     SDL_RenderPresent(renderer);
 }
 
+void Game::keyPresses()
+{
+    int x1 = board.x, y1 = board.y;
+    if(e.type == SDL_KEYDOWN)
+    {
+        switch (e.key.keysym.sym)
+        {
+        case SDLK_DOWN:
+            y1++;
+            break;
+        case SDLK_LEFT:
+            x1--;
+            break;
+        case SDLK_RIGHT:
+            x1++;
+            break;
+        case SDLK_UP:
+            if(this->board.checkRotate(x1, y1)) this->board.block.rotate();
+            break;
+        default:
+            break;
+        }    
+    }
+
+    if(this->board.checkBorder(x1, y1)) {
+        this->board.x = x1;
+        this->board.y = y1;
+        this->board.showBlock();
+    }
+    else this->board.showBlock();
+}
+
+void Game::handleEvent()
+{
+    if(e.type == SDL_QUIT)
+    {
+        is_running = false;
+    }
+}
 void Game::handleStatus()
 {
-    int x = DIS_X, y = 0;
-    while(x < 10 && x >= 0 && y < 20 && y >= 0 && is_running){
-        Game::clear();
-        Game::renderBackground();
+    if(Game::status == GAME_PLAYING) 
+    {
         SDL_PollEvent(&e);
-        if(e.type == SDL_QUIT) {is_running = false; continue;}
-        if(e.type == SDL_KEYDOWN)
-        {
-            switch (e.key.keysym.sym)
-            {
-            case SDLK_DOWN:
-                y++;
-                break;
-            case SDLK_LEFT:
-                x--;
-                break;
-            case SDLK_RIGHT:
-                x++;
-                break;
-            case SDLK_UP:
-                board.block.rotate();
-                break;
-            default:
-                break;
-            }    
-        }
-        if (x < 10 && x >= 0 && y < 20 && y >= 0) board.showBlock(x, y);
-        Game::display();
+        Game::handleEvent();
+        Game::keyPresses();
     }
-    // board.showBlock(DIS_X, 0);
-    // Game::display();
+    // if(Game::status == GAME_PAUSE)
+    // {
+    //     while(SDL_PollEvent(&e) != 0)
+    //     {
+    //         Game::handleEvent();
+    //     }
+    // }
+    // if(Game::status == GAME_ONPAUSE)
+    // {
+    //     while(SDL_PollEvent(&e) != 0)
+    //     {
+    //         Game::handleEvent();
+    //     }
+    // }
+    // if(Game::status == GAME_OVER)
+    // {
+    //     while(SDL_PollEvent(&e) != 0)
+    //     {
+    //         Game::handleEvent();
+    //     }
+    // }
+
 }

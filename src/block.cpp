@@ -17,6 +17,9 @@ Block::Block()
             count++;
         }
     }
+
+//     // toa do x, y, render ban dau cua o ij trong bang board
+//    this->updateXY(DIS_X, 0);
 }
 
 void Block::rotate()
@@ -26,5 +29,17 @@ void Block::rotate()
     for(int j = 0; j < 4; j++) temp_matrix[i][j] = this->matrix[i][j];
     
     for(int i = 0; i < 4; i++)
-    for(int j = 0; j < 4; j++) matrix[i][j] = temp_matrix[j][3 - i];
+    for(int j = 0; j < 4; j++) this->matrix[i][j] = temp_matrix[j][3 - i];
 }
+
+// void Block::updateXY(int x, int y)
+// {
+//     this->xpos = x, this->ypos = y;
+//     for(int i = 0; i < 4; i++)
+//     {
+//         for(int j = 0; j < 4; j++) 
+//         {
+//             this->xy[i][j] = {xpos + j, ypos + i};
+//         }
+//     }
+// }

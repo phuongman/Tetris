@@ -13,6 +13,7 @@ public:
     SDL_Renderer* renderer = NULL;
     SDL_Window* window = NULL;
     SDL_Event e;
+    int status = GAME_PLAYING;
 
     Object arr_object[NEW_ELEMENT_OBJECT];
     Board board;
@@ -21,7 +22,9 @@ public:
     bool running();
     void clear();
     void renderBackground();
+    void handleEvent();
     void display();
+    void keyPresses();
     void handleStatus();
 private:
     bool is_running = true;

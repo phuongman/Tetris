@@ -18,12 +18,10 @@ int main(int argc, char* args[])
     Game game("Tetris");
     while(game.running())
     {
+        game.clear();
+        game.renderBackground();
         game.handleStatus();
-        SDL_PollEvent(&game.e);
-        if(game.e.type == SDL_QUIT)
-        {
-            break;
-        }
+        game.display();
     }
     return 0;
 }
