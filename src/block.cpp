@@ -26,5 +26,5 @@ void Block::rotate()
     for(int j = 0; j < 4; j++) temp_matrix[i][j] = this->matrix[i][j];
     
     for(int i = 0; i < 4; i++)
-    for(int j = 0; j < 4; j++) matrix[i][j] = temp_matrix[j][4 - i];
+    for(int j = 0; j < 4; j++) matrix[i][j] = temp_matrix[j][3 - i];
 }

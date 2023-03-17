@@ -75,7 +75,35 @@ void Game::display()
 
 void Game::handleStatus()
 {
-    Game::renderBackground();
-    board.showBlock(DIS_X, 0);
-    Game::display();
+    int x = DIS_X, y = 0;
+    while(x < 10 && x >= 0 && y < 20 && y >= 0 && is_running){
+        Game::clear();
+        Game::renderBackground();
+        SDL_PollEvent(&e);
+        if(e.type == SDL_QUIT) {is_running = false; continue;}
+        if(e.type == SDL_KEYDOWN)
+        {
+            switch (e.key.keysym.sym)
+            {
+            case SDLK_DOWN:
+                y++;
+                break;
+            case SDLK_LEFT:
+                x--;
+                break;
+            case SDLK_RIGHT:
+                x++;
+                break;
+            case SDLK_UP:
+                board.block.rotate();
+                break;
+            default:
+                break;
+            }    
+        }
+        if (x < 10 && x >= 0 && y < 20 && y >= 0) board.showBlock(x, y);
+        Game::display();
+    }
+    // board.showBlock(DIS_X, 0);
+    // Game::display();
 }
