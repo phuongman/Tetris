@@ -16,6 +16,7 @@ public:
     
     Block block = Block();
     Block next_block = Block();
+    bool new_block = false;
 
     int x = DIS_X, y = DIS_Y;
     

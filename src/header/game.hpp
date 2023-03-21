@@ -27,7 +27,7 @@ public:
     void handleEvent();
     void display();
     void keyPresses();
-    bool downBlock();
+    void downBlock();
     int checkGameOver();
     void handleStatus();
     void updateB();

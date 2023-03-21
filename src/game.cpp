@@ -157,11 +157,7 @@ void Game::keyPresses()
     }
 
 }
-void Game::updateB()
-{
-    this->board.block = this->board.next_block;
-    this->board.next_block = Block();
-}
+
 int Game::checkGameOver()
 {
       for(int i = 0; i < 4; i++)
@@ -179,7 +175,7 @@ int Game::checkGameOver()
     }
     return this->status;
 }
-bool Game::downBlock()
+void Game::downBlock()
 {
     this->curr_time = SDL_GetTicks();
     if(this->curr_time - this->prev_time > 1000) {
@@ -198,11 +194,10 @@ bool Game::downBlock()
             else
             {
                 this->board.updateBoard();
-                return false;
+                this->board.new_block = true;
             }
         }
     }
-    return true;
 }
 void Game::handleEvent()
 {
@@ -213,16 +208,21 @@ void Game::handleEvent()
 }
 void Game::handleStatus()
 {
+    if(this->board.new_block) 
+    {
+        this->board.block = this->board.next_block;
+        this->board.next_block = Block();
+        this->board.new_block = false;
+        this->board.x = DIS_X, this->board.y = DIS_Y;
+    }
     if(Game::status == GAME_PLAYING) 
     {
         SDL_PollEvent(&e);
         Game::handleEvent();
         this->board.showBoard();
         Game::keyPresses();
-        bool success = Game::downBlock();
+        Game::downBlock();
         this->board.showBlock();
-        if(!success) Game::updateB();
-
         Game::display();
     }
     // if(Game::status == GAME_PAUSE)
