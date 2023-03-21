@@ -8,18 +8,18 @@ void Board::Init(SDL_Renderer* renderer)
 {
     // load brick
     this->renderer = renderer;
-    for(int i = 0; i < 6; i++) brick[i].setRenderer(renderer);
-    this->brick[0].loadTexture("image/brick0.png");
-    this->brick[1].loadTexture("image/brick1.png");
-    this->brick[2].loadTexture("image/brick2.png");
-    this->brick[3].loadTexture("image/brick3.png");
-    this->brick[4].loadTexture("image/brick4.png");
-    this->brick[5].loadTexture("image/brick5.png");
-    for(int i = 0; i < 6; i++) this->brick[i].setDst({0, 0, LENGTH_SQUARE, LENGTH_SQUARE});
+    for(int i = 1; i < 7; i++) brick[i].setRenderer(renderer);
+    this->brick[1].loadTexture("image/brick0.png");
+    this->brick[2].loadTexture("image/brick1.png");
+    this->brick[3].loadTexture("image/brick2.png");
+    this->brick[4].loadTexture("image/brick3.png");
+    this->brick[5].loadTexture("image/brick4.png");
+    this->brick[6].loadTexture("image/brick5.png");
+    for(int i = 1; i < 7; i++) this->brick[i].setDst({0, 0, LENGTH_SQUARE, LENGTH_SQUARE});
 
     //toa do render cua o ij trong bang board
     for(int i = 1; i <= 20; i++)
-    for(int j = 1; j <= 10; j++) this->point[i][j] = {XPOS + (i - 1) * LENGTH_SQUARE, YPOS + (j - 1) * LENGTH_SQUARE};
+    for(int j = 1; j <= 10; j++) this->point[i][j] = {XPOS + (j - 1) * LENGTH_SQUARE, YPOS + (i - 1) * LENGTH_SQUARE};
 
     for(int i = 1; i <= 20; i++)
     for(int j = 1; j <= 10; j++) this->board[i][j] = 0;
@@ -27,13 +27,27 @@ void Board::Init(SDL_Renderer* renderer)
     for(int i = 0; i <= 10; i++) this->board[0][i] = this->board[21][i] = -1;
 }
 
+void Board::showBoard()
+{
+    for(int i = 1; i <= 20; i++)
+    {
+        for(int j = 1; j <= 10; j++) 
+            if(this->board[i][j])
+            {
+                int type_b = this->board[i][j];
+                this->brick[type_b].setDst({this->point[i][j].x, this->point[i][j].y, LENGTH_SQUARE, LENGTH_SQUARE});
+                this->brick[type_b].draw();
+            }
+    }
+}
 bool Board::checkBorder(int x, int y)
 {
     for(int i = 0; i < 4; i++)
     for(int j = 0; j < 4; j++) 
     if(block.matrix[i][j])
     {
-        if(x + j > 10 || x + j < 1 || y + i > 20) return false;
+        if(y + i > 20) return false;
+        if(this->board[y + i][x + j]) return false;
     }
     return true;
 }
@@ -46,11 +60,29 @@ bool Board::checkRotate(int x, int y)
         tempMatrix[i][j] = this->block.matrix[j][3 - i];
         if(tempMatrix[i][j])
         {
-            if(x + j > 10 || x + j < 1 || y + i > 20) return false;
+            if(y + i > 20) return false;
+            if(this->board[y + i][x + j]) return false;
         }
     }
     return true;
     
+}
+
+bool Board::checkCanDown(int x, int y)
+{
+    for(int i = 0; i < 4; i++)
+    for(int j = 0; j < 4; j++)
+        if(this->block.matrix[i][j])
+        {
+            if(y + i > 20) {
+                return false;
+            }
+            if(this->board[y + i][x + j]) {
+                
+                return false;
+            }
+        }
+    return true;
 }
 void Board::showBlock()
 {
@@ -62,9 +94,28 @@ void Board::showBlock()
         {
             if(this->block.matrix[i][j])
             {
-                this->brick[block.type_brick].dst.x = this->block.xpos + j * LENGTH_SQUARE;
-                this->brick[block.type_brick].dst.y = this->block.ypos + i * LENGTH_SQUARE;
+                // this->brick[block.type_brick].dst.x = this->block.xpos + j * LENGTH_SQUARE;
+                // this->brick[block.type_brick].dst.y = this->block.ypos + i * LENGTH_SQUARE;
+                this->brick[block.type_brick].dst.x = XPOS + LENGTH_SQUARE * (this->block.xy[i][j].x - 1);
+                this->brick[block.type_brick].dst.y = YPOS + LENGTH_SQUARE * (this->block.xy[i][j].y - 1);
                 this->brick[block.type_brick].draw();
+            }
+        }
+    }
+
+}
+
+void Board::updateBoard()
+{
+    for(int i = 0; i < 4; i++)
+    {
+        for(int j = 0; j < 4; j++)
+        {
+            if(this->block.matrix[i][j])
+            {
+                int _x = this->block.xy[i][j].x;
+                int _y = this->block.xy[i][j].y;
+                this->board[_y][_x] = this->block.type_brick;
             }
         }
     }

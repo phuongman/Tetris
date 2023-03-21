@@ -27,8 +27,10 @@ public:
     void handleEvent();
     void display();
     void keyPresses();
-    void downBlock();
+    bool downBlock();
+    int checkGameOver();
     void handleStatus();
+    void updateB();
 private:
     bool is_running = true;
 };

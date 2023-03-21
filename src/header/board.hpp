@@ -7,15 +7,25 @@ class Board
 {
 public:
     SDL_Renderer* renderer = NULL;
+    
     int board[ROW][COLUM] = {{0}};
+    
     SDL_Point point[ROW][COLUM] = {{0}};
-    Object brick[6];
-    Block block;
+    
+    Object brick[7];
+    
+    Block block = Block();
+    Block next_block = Block();
+
     int x = DIS_X, y = DIS_Y;
+    
     Board();
     void Init(SDL_Renderer* renderer);
     bool checkBorder(int x, int y);
     bool checkRotate(int x, int y);
+    bool checkCanDown(int x, int y);
+    void showBoard();
+    void updateBoard();
     void downTetris();
     void showBlock();
     void render();

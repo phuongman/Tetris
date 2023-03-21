@@ -75,40 +75,134 @@ void Game::display()
 
 void Game::keyPresses()
 {
-    int x1 = board.x, y1 = board.y;
+    int x1 = this->board.x, y1 = this->board.y;
+    int temp_m[4][4];
+    for(int i = 0; i < 4; i++)
+    for(int j = 0; j < 4; j++) temp_m[i][j] = this->board.block.matrix[i][j];
     if(e.type == SDL_KEYDOWN)
     {
         switch (e.key.keysym.sym)
         {
         case SDLK_DOWN:
-            y1++;
+            if(this->board.checkBorder(x1, y1 + 1))
+            {
+                this->board.x = x1;
+                this->board.y = y1 + 1;
+                this->board.block.updateXY(x1, y1 + 1);
+            }
             break;
         case SDLK_LEFT:
-            x1--;
+            if(this->board.checkBorder(x1 - 1, y1))
+            {
+                bool ok = true;
+                for(int i = 0; i < 4; i++)
+                for(int j = 0; j < 4; j++)
+                if(this->board.block.matrix[i][j] && j - 1 < 0) {ok = false; break;}
+                if(ok) 
+                {
+                    
+                    for(int i = 0; i < 4; i++)
+                    for(int j = 0; j < 4; j++) this->board.block.matrix[i][j] = temp_m[i][(j + 1) % 4];
+   
+                }
+                else
+                {
+                    this->board.x = x1 - 1;
+                    this->board.y = y1;
+                    this->board.block.updateXY(x1 - 1, y1);
+                }
+            }
             break;
         case SDLK_RIGHT:
-            x1++;
+            if(this->board.checkBorder(x1 + 1, y1))
+            {
+                bool ok = true;
+                for(int i = 0; i < 4; i++)
+                for(int j = 0; j < 4; j++)
+                if(this->board.block.matrix[i][j] && j + 1 > 3) {ok = false; break;}
+                if(ok) 
+                {
+                    for(int i = 0; i < 4; i++)
+                    for(int j = 3; j >= 0; j--) this->board.block.matrix[i][j] =  temp_m[i][(j - 1 + 4) % 4];
+                }
+                else
+                {
+                    this->board.x = x1 + 1;
+                    this->board.y = y1;
+                    this->board.block.updateXY(x1 + 1, y1);
+                }
+            }
             break;
         case SDLK_UP:
-            if(this->board.checkRotate(x1, y1)) this->board.block.rotate();
+            if(this->board.checkRotate(x1, y1)) 
+            {
+                this->board.block.rotate();
+                this->board.block.updateXY(x1, y1);
+            }
+            break;
+        case SDLK_SPACE:
+            for(int i = 20; i >= 1; i--) 
+            if(this->board.checkBorder(x1, i))
+            {
+                y1 = i;
+                this->board.y = i;
+                this->board.block.updateXY(x1, y1);
+                // Game::updateB();
+                break;
+            }
             break;
         default:
             break;
         }    
     }
 
-    if(this->board.checkBorder(x1, y1)) {
-        this->board.x = x1;
-        this->board.y = y1;
-    }
 }
-void Game::downBlock()
+void Game::updateB()
+{
+    this->board.block = this->board.next_block;
+    this->board.next_block = Block();
+}
+int Game::checkGameOver()
+{
+      for(int i = 0; i < 4; i++)
+    {
+        for(int j = 0; j < 4; j++)
+        {
+            if(this->board.block.matrix[i][j])
+            {
+                if(this->board.y + j == 0)
+                {
+                    this->status = GAME_OVER;
+                }
+            }
+        }
+    }
+    return this->status;
+}
+bool Game::downBlock()
 {
     this->curr_time = SDL_GetTicks();
     if(this->curr_time - this->prev_time > 1000) {
-        if(this->board.checkBorder(this->board.x, this->board.y + 1)) this->board.y = this->board.y + 1;
         this->prev_time = this->curr_time;
+        if(this->board.checkCanDown(this->board.x, this->board.y + 1)) 
+        {
+            this->board.y = this->board.y + 1;
+            this->board.block.updateXY(this->board.x, this->board.y);
+        }
+        else
+        {
+            if(this->checkGameOver())
+            {
+                // Game Over;
+            }
+            else
+            {
+                this->board.updateBoard();
+                return false;
+            }
+        }
     }
+    return true;
 }
 void Game::handleEvent()
 {
@@ -123,9 +217,11 @@ void Game::handleStatus()
     {
         SDL_PollEvent(&e);
         Game::handleEvent();
+        this->board.showBoard();
         Game::keyPresses();
-        Game::downBlock();
+        bool success = Game::downBlock();
         this->board.showBlock();
+        if(!success) Game::updateB();
 
         Game::display();
     }

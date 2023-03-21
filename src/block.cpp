@@ -1,8 +1,8 @@
 #include "header/block.hpp"
 Block::Block()
 {
-    this->curr_block = rand() % 7;
-    this->type_brick = rand() % 5;
+    this->curr_block = 4; //rand() % 7;
+    this->type_brick = 1 + rand() % 5;
     int mark = 0, count = 1;;
     for(int i = 0; i < 4; i++)
     {
@@ -19,7 +19,7 @@ Block::Block()
     }
 
 //     // toa do x, y, render ban dau cua o ij trong bang board
-//    this->updateXY(DIS_X, 0);
+    this->updateXY(DIS_X, DIS_Y);
 }
 
 void Block::rotate()
@@ -32,14 +32,13 @@ void Block::rotate()
     for(int j = 0; j < 4; j++) this->matrix[i][j] = temp_matrix[j][3 - i];
 }
 
-// void Block::updateXY(int x, int y)
-// {
-//     this->xpos = x, this->ypos = y;
-//     for(int i = 0; i < 4; i++)
-//     {
-//         for(int j = 0; j < 4; j++) 
-//         {
-//             this->xy[i][j] = {xpos + j, ypos + i};
-//         }
-//     }
-// }
+void Block::updateXY(int x, int y)
+{
+    for(int i = 0; i < 4; i++)
+    {
+        for(int j = 0; j < 4; j++) 
+        {
+            this->xy[i][j] = {x + j, y + i};
+        }
+    }
+}
