@@ -25,6 +25,8 @@ public:
     bool checkBorder(int x, int y);
     bool checkRotate(int x, int y);
     bool checkCanDown(int x, int y);
+    int checkCreateRow();
+    void deleteRow(int cnt, int xpos);
     void showBoard();
     void updateBoard();
     void downTetris();

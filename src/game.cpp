@@ -134,7 +134,7 @@ void Game::keyPresses()
             }
             break;
         case SDLK_UP:
-            if(this->board.checkRotate(x1, y1)) 
+            if(this->board.checkRotate(x1, y1) && this->board.block.curr_block != 2) 
             {
                 this->board.block.rotate();
                 this->board.block.updateXY(x1, y1);
@@ -147,7 +147,8 @@ void Game::keyPresses()
                 y1 = i;
                 this->board.y = i;
                 this->board.block.updateXY(x1, y1);
-                // Game::updateB();
+                this->board.updateBoard();
+                this->board.new_block = true;
                 break;
             }
             break;
@@ -219,6 +220,7 @@ void Game::handleStatus()
     {
         SDL_PollEvent(&e);
         Game::handleEvent();
+        int val = this->board.checkCreateRow();
         this->board.showBoard();
         Game::keyPresses();
         Game::downBlock();

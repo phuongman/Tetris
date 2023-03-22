@@ -1,7 +1,7 @@
 #include "header/block.hpp"
 Block::Block()
 {
-    this->curr_block = 4; //rand() % 7;
+    this->curr_block = rand() % 7;
     this->type_brick = 1 + rand() % 5;
     int mark = 0, count = 1;;
     for(int i = 0; i < 4; i++)

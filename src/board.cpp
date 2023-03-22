@@ -24,7 +24,7 @@ void Board::Init(SDL_Renderer* renderer)
     for(int i = 1; i <= 20; i++)
     for(int j = 1; j <= 10; j++) this->board[i][j] = 0;
     for(int i = 0; i <= 21; i++) this->board[i][0] = this->board[i][11] = -1;
-    for(int i = 0; i <= 10; i++) this->board[0][i] = this->board[21][i] = -1;
+    for(int i = 0; i <= 10; i++) this->board[21][i] = -1;
 }
 
 void Board::showBoard()
@@ -47,6 +47,7 @@ bool Board::checkBorder(int x, int y)
     if(block.matrix[i][j])
     {
         if(y + i > 20) return false;
+        if(this->board[y + i - 1][x + j]) return false;
         if(this->board[y + i][x + j]) return false;
     }
     return true;
@@ -61,6 +62,7 @@ bool Board::checkRotate(int x, int y)
         if(tempMatrix[i][j])
         {
             if(y + i > 20) return false;
+            if(this->board[y + i - 1][x + j]) return false;
             if(this->board[y + i][x + j]) return false;
         }
     }
@@ -74,20 +76,17 @@ bool Board::checkCanDown(int x, int y)
     for(int j = 0; j < 4; j++)
         if(this->block.matrix[i][j])
         {
-            if(y + i > 20) {
-                return false;
-            }
-            if(this->board[y + i][x + j]) {
-                
-                return false;
-            }
+            if(y + i > 20) return false;
+        
+            if(this->board[y + i - 1][x + j]) return false;
+            if(this->board[y + i][x + j]) return false;
         }
     return true;
 }
 void Board::showBlock()
 {
-    this->block.xpos = XPOS + (this->x - 1) * LENGTH_SQUARE;
-    this->block.ypos = YPOS + (this->y - 1) * LENGTH_SQUARE;
+    // this->block.xpos = XPOS + (this->x - 1) * LENGTH_SQUARE;
+    // this->block.ypos = YPOS + (this->y - 1) * LENGTH_SQUARE;
     for(int i = 0; i < 4; i++)
     {
         for(int j = 0; j < 4; j++)
@@ -101,6 +100,23 @@ void Board::showBlock()
                 this->brick[block.type_brick].draw();
             }
         }
+    }
+
+    int y1 = 0;
+    for(int t = 0; t <= 20; t++)
+        if(this->checkBorder(this->x, t)) y1 = t;
+    int xpos1 = XPOS + (this->x - 1) * LENGTH_SQUARE;
+    int ypos1 = YPOS + (y1 - 1) * LENGTH_SQUARE;
+    for(int i = 0; i < 4; i++)
+    {
+        for(int j = 0; j < 4; j++)
+        
+            if(this->block.matrix[i][j])
+            {
+                this->brick[6].dst.x = xpos1 + j * LENGTH_SQUARE;
+                this->brick[6].dst.y = ypos1 + i * LENGTH_SQUARE;
+                this->brick[6].draw();
+            }
     }
 
 }
@@ -120,4 +136,31 @@ void Board::updateBoard()
         }
     }
 
+}
+int Board::checkCreateRow()
+{   
+    int cnt = 0;
+    for(int i = 1; i <= 20; i++)
+    {
+        for(int j = 1; j < 11; j++) 
+        {
+            if(!this->board[i][j]) 
+            {
+                this->deleteRow(cnt, i - 1);
+                cnt = -1;
+                break;
+            }
+        }
+        cnt++;
+    }
+    this->deleteRow(cnt, 20);
+    return cnt;
+}
+void Board::deleteRow(int cnt, int xpos)
+{   
+    for(int i = xpos; i > 0; i--)
+    for(int j = 1; j < 11; j++)
+    {
+        this->board[i][j] = this->board[max(0, i - cnt)][j];
+    }
 }
