@@ -16,6 +16,7 @@ public:
     int status = GAME_PLAYING;
 
     Object arr_object[NEW_ELEMENT_OBJECT];
+    Object game_over;
     Board board;
     Uint32 prev_time = 0;
     Uint32 curr_time = 0;

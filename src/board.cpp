@@ -77,7 +77,6 @@ bool Board::checkCanDown(int x, int y)
         if(this->block.matrix[i][j])
         {
             if(y + i > 20) return false;
-        
             if(this->board[y + i - 1][x + j]) return false;
             if(this->board[y + i][x + j]) return false;
         }
@@ -101,12 +100,12 @@ void Board::showBlock()
             }
         }
     }
-
     int y1 = 0;
-    for(int t = 0; t <= 20; t++)
-        if(this->checkBorder(this->x, t)) y1 = t;
+    for(int t = 1; t <= 20; t++)
+        if(this->checkBorder(this->x, t)) y1 = t; else break;
     int xpos1 = XPOS + (this->x - 1) * LENGTH_SQUARE;
     int ypos1 = YPOS + (y1 - 1) * LENGTH_SQUARE;
+    if(y1)
     for(int i = 0; i < 4; i++)
     {
         for(int j = 0; j < 4; j++)

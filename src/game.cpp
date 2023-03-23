@@ -25,20 +25,31 @@ void Game::configResource()
     arr_object[CAT].setRenderer(renderer);
     arr_object[BOARD].setRenderer(renderer);
     arr_object[BRICK].setRenderer(renderer);
+    arr_object[NEXT].setRenderer(renderer);
+    arr_object[SCORE].setRenderer(renderer);
+    arr_object[HOLD].setRenderer(renderer);
     
 
     arr_object[BACKGROUND].loadTexture("image/background.png");
     arr_object[CAT].loadTexture("image/cat.png");
     arr_object[BOARD].loadTexture("image/board.png");
     arr_object[BRICK].loadTexture("image/brick.png");
+    arr_object[NEXT].loadTexture("image/next.png");
+    arr_object[SCORE].loadTexture("image/score.png");
+    arr_object[HOLD].loadTexture("image/hold.png");
 
     arr_object[BACKGROUND].setDst({0, 0, SCREEN_WIDTH, SCREEN_HEIGHT});
     int length = 300;
     arr_object[CAT].setDst({SCREEN_WIDTH - length, SCREEN_HEIGHT - length, length, length});    
     arr_object[BOARD].setDst({XPOS, YPOS, 350, 700});
     arr_object[BRICK].setDst({0, 0, LENGTH_SQUARE, LENGTH_SQUARE});
+    arr_object[HOLD].setDst({50, YPOS, 250, 250});
+    arr_object[NEXT].setDst({(SCREEN_WIDTH - 300) + (300 - 250) / 2, YPOS, 250, 400});
+    arr_object[SCORE].setDst({50, (SCREEN_HEIGHT - YPOS - 400), 250, 400});
 
-
+    game_over.setRenderer(renderer);
+    game_over.loadTexture("image/gameover.png");
+    game_over.setDst({(SCREEN_WIDTH - 300) / 2, (SCREEN_HEIGHT - 250) / 2, 300, 250});
 
 
 }
@@ -57,6 +68,9 @@ void Game::renderBackground()
     arr_object[BACKGROUND].draw();
     arr_object[CAT].draw();
     arr_object[BOARD].draw();
+    arr_object[HOLD].draw();
+    arr_object[NEXT].draw();
+    arr_object[SCORE].draw();
     for(int i = 0; i < 10; i++)
     {
         for(int j = 0; j < 20; j++)
@@ -149,6 +163,7 @@ void Game::keyPresses()
                 this->board.block.updateXY(x1, y1);
                 this->board.updateBoard();
                 this->board.new_block = true;
+                SDL_Delay(100);
                 break;
             }
             break;
@@ -161,13 +176,14 @@ void Game::keyPresses()
 
 int Game::checkGameOver()
 {
-      for(int i = 0; i < 4; i++)
+    for(int i = 0; i < 4; i++)
     {
         for(int j = 0; j < 4; j++)
         {
             if(this->board.block.matrix[i][j])
             {
-                if(this->board.y + j == 0)
+
+                if(this->board.board[this->board.block.xy[i][j].y][this->board.block.xy[i][j].x])
                 {
                     this->status = GAME_OVER;
                 }
@@ -190,7 +206,8 @@ void Game::downBlock()
         {
             if(this->checkGameOver())
             {
-                // Game Over;
+                cout << 1 << '\n';
+                this->status = GAME_OVER;
             }
             else
             {
@@ -220,12 +237,16 @@ void Game::handleStatus()
     {
         SDL_PollEvent(&e);
         Game::handleEvent();
+        if(this->checkGameOver()) {
+            this->status = GAME_OVER;
+        }
         int val = this->board.checkCreateRow();
         this->board.showBoard();
-        Game::keyPresses();
         Game::downBlock();
+        Game::keyPresses();
         this->board.showBlock();
         Game::display();
+        
     }
     // if(Game::status == GAME_PAUSE)
     // {
@@ -241,12 +262,16 @@ void Game::handleStatus()
     //         Game::handleEvent();
     //     }
     // }
-    // if(Game::status == GAME_OVER)
-    // {
-    //     while(SDL_PollEvent(&e) != 0)
-    //     {
-    //         Game::handleEvent();
-    //     }
-    // }
+    if(Game::status == GAME_OVER)
+    {
+        cout << 2;
+        SDL_PollEvent(&e);
+        Game::handleEvent();
+        this->board.showBoard();
+        this->board.showBlock();
+        this->game_over.draw();
+        Game::display();
+
+    }
 
 }
