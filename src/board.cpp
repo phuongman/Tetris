@@ -84,6 +84,7 @@ bool Board::checkCanDown(int x, int y)
 }
 void Board::showBlock()
 {
+    //show brick is running
     // this->block.xpos = XPOS + (this->x - 1) * LENGTH_SQUARE;
     // this->block.ypos = YPOS + (this->y - 1) * LENGTH_SQUARE;
     for(int i = 0; i < 4; i++)
@@ -100,6 +101,8 @@ void Board::showBlock()
             }
         }
     }
+
+    //show border brick
     int y1 = 0;
     for(int t = 1; t <= 20; t++)
         if(this->checkBorder(this->x, t)) y1 = t; else break;
@@ -117,6 +120,56 @@ void Board::showBlock()
                 this->brick[6].draw();
             }
     }
+
+    //show next brick
+
+    switch (this->next_block.curr_block)
+    {
+        case 0:
+            xpos1 = SCREEN_WIDTH - 300 + 81;
+            ypos1 = YPOS + 35 * 5 - 5;
+            break;
+        case 1:
+            xpos1 = SCREEN_WIDTH - 300 + 79;
+            ypos1 = YPOS + 35 * 5 - 5;
+            break;
+        case 2:
+            xpos1 = SCREEN_WIDTH - 220;
+            ypos1 = YPOS + 185;
+            break;
+        case 3:
+            xpos1 = SCREEN_WIDTH - 300 + 97;
+            ypos1 = YPOS + 35 * 5.4;
+            break;
+        case 4:
+            xpos1 = SCREEN_WIDTH - 300 + 62;
+            ypos1 = YPOS + 35 * 5.4;
+            break;
+        case 5:
+            xpos1 = SCREEN_WIDTH - 300 + 81;
+            ypos1 = YPOS + 35 * 5 - 5;
+            break;
+        case 6:
+            xpos1 = SCREEN_WIDTH - 300 + 100;
+            ypos1 = YPOS + 35 * 4.4;
+            break;
+        default:
+            break;
+    }
+
+    for(int i = 0; i < 4; i++)
+    {
+        for(int j = 0; j < 4; j++)
+        {
+            if(this->next_block.matrix[i][j])
+            {
+                this->brick[this->next_block.type_brick].dst.x = xpos1 + j * LENGTH_SQUARE;
+                this->brick[this->next_block.type_brick].dst.y = ypos1 + i * LENGTH_SQUARE;
+                this->brick[this->next_block.type_brick].draw();
+            }
+        }
+    }
+
 
 }
 
