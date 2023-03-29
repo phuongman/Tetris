@@ -55,7 +55,7 @@ const int LEVEL3_LIGHT = 8;
 const int TETRIS = 9;
 
 
-const int NEW_ELEMENT_MUSIC = 10;
+const int NEW_ELEMENT_MUSIC = 3;
 const int BACKGROUND_MUSIC = 0;
 const int HELLO_MUSIC = 1;
 const int GAMEOVER = 2;
