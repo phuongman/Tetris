@@ -20,6 +20,8 @@ public:
     Board board;
     Uint32 prev_time = 0;
     Uint32 curr_time = 0;
+    Uint32 cnt_line = 0;
+
     Game(const char* title);
     void configResource();
     bool running();

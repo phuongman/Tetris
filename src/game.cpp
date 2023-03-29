@@ -206,7 +206,6 @@ void Game::downBlock()
         {
             if(this->checkGameOver())
             {
-                cout << 1 << '\n';
                 this->status = GAME_OVER;
             }
             else
@@ -264,7 +263,6 @@ void Game::handleStatus()
     // }
     if(Game::status == GAME_OVER)
     {
-        cout << 2;
         SDL_PollEvent(&e);
         Game::handleEvent();
         this->board.showBoard();
