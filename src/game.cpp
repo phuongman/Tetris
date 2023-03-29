@@ -114,6 +114,7 @@ void Game::configResource()
 
     music[BACKGROUND_MUSIC] = Mix_LoadWAV("SDL/music/mix_music.wav");
     music[HELLO_MUSIC] = Mix_LoadWAV("SDL/music/hello.wav"); 
+    music[GAMEOVER] = Mix_LoadWAV("SDL/music/gameover.wav");
 }
 
 void Game::renderView()
@@ -173,7 +174,6 @@ void Game::handleEventInView()
                 Game::display();
                 Mix_PlayChannel(-1, music[HELLO_MUSIC], 0);
                 SDL_Delay(5000);
-                Mix_FreeChunk(music[HELLO_MUSIC]);
                 Game::status = GAME_PLAYING;
             }
 
@@ -460,6 +460,11 @@ void Game::handleStatus()
         if(home_light.render) this->home_light.draw();
         Game::showScoreGameOver();
         Game::display();
+        if(cnt_gameover == 0){
+            Mix_PlayChannel(-1, music[GAMEOVER], 0);
+            SDL_Delay(3000);
+            cnt_gameover = 1;
+        }
         Game::getMousePoint();
         if(SDL_PointInRect(&mousePoint, &home.dst))
         {
@@ -473,6 +478,7 @@ void Game::handleStatus()
             home_light.render = false;
             home.render = true;
         }
+        
         if(Game::e.type == SDL_MOUSEBUTTONDOWN)
         {   
             //click on home
@@ -481,6 +487,8 @@ void Game::handleStatus()
                 Game::status = GAME_PRE_PLAY;
             }
         }
+        
+        
     }
 
 }

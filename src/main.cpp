@@ -33,6 +33,9 @@ int main(int argc, char* args[])
         game.clear();
         if(game.status == GAME_PRE_PLAY)
         {
+            game.cnt_gameover = 0;
+            game.home.render = true;
+            game.home_light.render = false;
             game.board.resetBoard();
             game.renderView();
             game.handleEventInView();

@@ -17,7 +17,7 @@ public:
     SDL_Event e;
     TTF_Font* font = NULL;
     Mix_Chunk* music[NEW_ELEMENT_MUSIC];
-    
+
     SDL_Point mousePoint;
 
     int status = GAME_PRE_PLAY;
@@ -27,7 +27,7 @@ public:
     
 
     Object arr_object[NEW_ELEMENT_OBJECT];
-    Object game_over;
+    Object game_over; int cnt_gameover = 0;
     Object score;
     Object line;
     Object home, home_light;
