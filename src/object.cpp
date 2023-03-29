@@ -38,3 +38,42 @@ void Object::draw()
     SDL_RenderCopy(this->renderer, this->texture, NULL, &this->dst);
 
 }
+
+
+void Object::setFont(TTF_Font* font)
+{
+    this->font = font;
+}
+void Object::loadFromeRenderText(string textureText, SDL_Color textColor)
+{
+    if( this->texture != NULL )
+	{
+		SDL_DestroyTexture( this->texture );
+		this->texture = NULL;
+	}
+	//Render text surface
+	SDL_Surface* textSurface = TTF_RenderText_Solid( this->font, textureText.c_str(), textColor );
+	if( textSurface == NULL )
+	{
+		printf( "Unable to render text surface! SDL_ttf Error: %s\n", TTF_GetError() );
+	}
+	else
+	{
+		//Create texture from surface pixels
+       this->texture = SDL_CreateTextureFromSurface( this->renderer, textSurface );
+		if( this->texture == NULL )
+		{
+			printf( "Unable to create texture from rendered text! SDL Error: %s\n", SDL_GetError() );
+		}
+		else
+		{
+			//Get image dimensions
+			this->dst.w = textSurface->w;
+		    this->dst.h = textSurface->h;
+		}
+
+		//Get rid of old surface
+		SDL_FreeSurface( textSurface );
+	}
+
+}

@@ -21,6 +21,7 @@ public:
     int x = DIS_X, y = DIS_Y;
     
     Board();
+    void resetBoard();
     void Init(SDL_Renderer* renderer);
     bool checkBorder(int x, int y);
     bool checkRotate(int x, int y);

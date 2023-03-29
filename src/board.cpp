@@ -2,7 +2,7 @@
 
 Board::Board()
 {
-
+    
 }
 void Board::Init(SDL_Renderer* renderer)
 {
@@ -21,12 +21,17 @@ void Board::Init(SDL_Renderer* renderer)
     for(int i = 1; i <= 20; i++)
     for(int j = 1; j <= 10; j++) this->point[i][j] = {XPOS + (j - 1) * LENGTH_SQUARE, YPOS + (i - 1) * LENGTH_SQUARE};
 
+}
+
+void Board::resetBoard()
+{
     for(int i = 1; i <= 20; i++)
     for(int j = 1; j <= 10; j++) this->board[i][j] = 0;
     for(int i = 0; i <= 21; i++) this->board[i][0] = this->board[i][11] = -1;
     for(int i = 0; i <= 10; i++) this->board[21][i] = -1;
+    this->block = Block();
+    this->next_block = Block();
 }
-
 void Board::showBoard()
 {
     for(int i = 1; i <= 20; i++)
@@ -44,7 +49,7 @@ bool Board::checkBorder(int x, int y)
 {
     for(int i = 0; i < 4; i++)
     for(int j = 0; j < 4; j++) 
-    if(block.matrix[i][j])
+    if(this->block.matrix[i][j])
     {
         if(y + i > 20) return false;
         if(this->board[y + i - 1][x + j]) return false;
@@ -104,7 +109,7 @@ void Board::showBlock()
 
     //show border brick
     int y1 = 0;
-    for(int t = 1; t <= 20; t++)
+    for(int t = this->block.xy[0][0].y; t <= 20; t++)
         if(this->checkBorder(this->x, t)) y1 = t; else break;
     int xpos1 = XPOS + (this->x - 1) * LENGTH_SQUARE;
     int ypos1 = YPOS + (y1 - 1) * LENGTH_SQUARE;
@@ -191,7 +196,7 @@ void Board::updateBoard()
 }
 int Board::checkCreateRow()
 {   
-    int cnt = 0;
+    int cnt = 0; int res = 0;
     for(int i = 1; i <= 20; i++)
     {
         for(int j = 1; j < 11; j++) 
@@ -199,6 +204,7 @@ int Board::checkCreateRow()
             if(!this->board[i][j]) 
             {
                 this->deleteRow(cnt, i - 1);
+                res += cnt;
                 cnt = -1;
                 break;
             }
@@ -206,7 +212,8 @@ int Board::checkCreateRow()
         cnt++;
     }
     this->deleteRow(cnt, 20);
-    return cnt;
+    res += cnt;
+    return res;
 }
 void Board::deleteRow(int cnt, int xpos)
 {   

@@ -19,7 +19,7 @@ const int DIS_Y = 1;
 
 const int NEW_ELEMENT_OBJECT = 7;
 const int BACKGROUND = 0;
-const int HOLD = 1;
+// const int HOLD = 1;
 const int NEXT = 2;
 const int SCORE = 3;
 const int CAT = 4;
@@ -38,6 +38,23 @@ const int TYPE_BLOCK[7][4] = {
 
 
 const int GAME_PLAYING = 0;
-const int GAME_PAUSE = 1;
-const int GAME_ONPAUSE = 2;
-const int GAME_OVER = 3;
+const int GAME_PRE_PLAY = 1;
+const int GAME_OVER = 2;
+
+
+const int NEW_ELEMENT_VIEW = 10;
+const int BOARD_BACKGROUND = 0;
+const int PLAY = 1;
+const int PLAY_LIGHT = 2;
+const int LEVEL1 = 3;
+const int LEVEL1_LIGHT = 4;
+const int LEVEL2 = 5;
+const int LEVEL2_LIGHT = 6;
+const int LEVEL3 = 7;
+const int LEVEL3_LIGHT = 8;
+const int TETRIS = 9;
+
+
+const int NEW_ELEMENT_MUSIC = 10;
+const int BACKGROUND_MUSIC = 0;
+const int HELLO_MUSIC = 1;
