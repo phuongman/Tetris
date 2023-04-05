@@ -1,4 +1,6 @@
 # codelaigame
+
+- Ngôn ngữ: C++, SDL
 - Cách download và chạy code
     + Cài Vscode
     + Cài C/C++
@@ -44,6 +46,4 @@
     + file object là thiết lập các thuộc tính, phương thức của một đối tượng như: setRenderer, loadTexture...
     + file board là thiết lập các thuộc tính, phương thức của bảng chơi như: updateBoard, showBoard, resetBoard...
     + file block là thiết lập các thuộc tính, phương thức của các khối block như: khởi tạo, rotate
-    
-
     
