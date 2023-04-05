@@ -1,5 +1,7 @@
 #include "header/game.hpp"
 
+// Khởi tạo mặc định 
+//  khởi tạo một window, render, font chữ và load các texture, âm thanh
 Game::Game(const char* title)
 {
     window = SDL_CreateWindow(title, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
@@ -19,6 +21,7 @@ Game::Game(const char* title)
     Game::configResource();
 }
 
+// Load các texture, music cần dùng cho game và khởi tạo một bảng 20 * 10
 void Game::configResource()
 {
     board.Init(renderer);
@@ -112,11 +115,16 @@ void Game::configResource()
     hello.loadTexture("image/hello.png");
     hello.setDst({0, 0, SCREEN_WIDTH, SCREEN_HEIGHT});
 
-    music[BACKGROUND_MUSIC] = Mix_LoadWAV("SDL/music/mix_music.wav");
-    music[HELLO_MUSIC] = Mix_LoadWAV("SDL/music/hello.wav"); 
-    music[GAMEOVER] = Mix_LoadWAV("SDL/music/gameover.wav");
+    music[BACKGROUND_MUSIC] = Mix_LoadWAV("music/mix_music.wav");
+    music[HELLO_MUSIC] = Mix_LoadWAV("music/hello.wav"); 
+    music[GAMEOVER] = Mix_LoadWAV("music/gameover.wav");
+    music[MOVE] = Mix_LoadWAV("music/move.wav");
+    music[ROTATE] = Mix_LoadWAV("music/rotate.wav");
+    music[LINECLEAR] = Mix_LoadWAV("music/lineclear.wav");
+    music[CLICK] = Mix_LoadWAV("music/click.wav");
 }
 
+// render view trước khi chơi như: background, các nút bấm play, chọn level lên renderer...
 void Game::renderView()
 {
     arr_object[BACKGROUND].draw();
@@ -129,6 +137,8 @@ void Game::renderView()
     else if(arr_view[LEVEL2].render) arr_view[LEVEL2].draw();
     else if(arr_view[LEVEL3].render) arr_view[LEVEL3].draw();
 }
+
+// render các nút bấm với trạng thái button_light khi con trỏ chuột nằm trong vùng button lên renderer
 void Game::updateButtonDraw(const int var1, const int var2) 
 {
     if(arr_view[var1].render)
@@ -140,17 +150,26 @@ void Game::updateButtonDraw(const int var1, const int var2)
         }
     }
 }
+
+// update trạng thái của button có được render không bằng true / false 
+// ví dụ: ban đầu nút level1 được gán giá trị true, còn level2 là false khi chọn level chơi là level1
 void Game::updateRenderButton(const int var1, const int var2)
 {
     arr_view[var1].render = false;
     arr_view[var2].render = true;
 }
+
+// lấy tọa độ hiện tại của con trỏ chuột
 void Game::getMousePoint() 
 {
     SDL_GetMouseState(&mouse_x, &mouse_y);
     mousePoint = {mouse_x, mouse_y};
 }
 
+// xử lý sự kiện trước khi chơi game
+// ví dụ render trạng thái button_light khi con trỏ chuột ở vùng button
+// hoặc thay đổi giá trị được render hay không của thay đổi ấn chuột thay đổi level
+// hoặc xử lý sự kiện khi nút play được bấm
 void Game::handleEventInView()
 {
     SDL_PollEvent(&e);
@@ -172,6 +191,7 @@ void Game::handleEventInView()
             {
                 hello.draw();
                 Game::display();
+                Mix_PlayChannel(-1, music[CLICK], 0);
                 Mix_PlayChannel(-1, music[HELLO_MUSIC], 0);
                 SDL_Delay(5000);
                 Game::status = GAME_PLAYING;
@@ -181,18 +201,21 @@ void Game::handleEventInView()
             if(arr_view[LEVEL1].render && SDL_PointInRect(&mousePoint, &arr_view[LEVEL1].dst))
             {
                 Game::updateRenderButton(LEVEL1, LEVEL2);
+                Mix_PlayChannel(-1, music[CLICK], 0);
                 Game::cnt_time = 700;
                 arr_view[LEVEL2].draw();
             }
             else if(arr_view[LEVEL2].render && SDL_PointInRect(&mousePoint, &arr_view[LEVEL2].dst))
             {
                 Game::updateRenderButton(LEVEL2, LEVEL3);
+                Mix_PlayChannel(-1, music[CLICK], 0);
                 Game::cnt_time = 500;
                 arr_view[LEVEL3].draw();
             }
             else if(arr_view[LEVEL3].render && SDL_PointInRect(&mousePoint, &arr_view[LEVEL3].dst))
             {
                 Game::updateRenderButton(LEVEL3, LEVEL1);
+                Mix_PlayChannel(-1, music[CLICK], 0);
                 Game::cnt_time = 1000;
                 arr_view[LEVEL1].draw();
             }
@@ -201,16 +224,20 @@ void Game::handleEventInView()
     }
 
 }
+
+// trả lại true / false tương ứng với game có đang chạy không
 bool Game::running()
 {
     return is_running;
 }
 
+// reset lại renderer
 void Game::clear()
 {
     SDL_RenderClear(renderer);
 }
 
+// render màn hình khi chơi game ví dụ như: background, bảng để chơi, ô next, ô score lên renderer
 void Game::renderBackground()
 {   
     arr_object[BACKGROUND].draw();
@@ -230,11 +257,14 @@ void Game::renderBackground()
         }
     }
 }
+
+// hiện thị các đối tượng vẽ lên renderer lên màn hình
 void Game::display()
 {
     SDL_RenderPresent(renderer);
 }
 
+// xử lý trạng thái các nút bấm khi chơi game như: up, down, left, right, space
 void Game::keyPresses()
 {
     int x1 = this->board.x, y1 = this->board.y;
@@ -246,6 +276,7 @@ void Game::keyPresses()
         switch (e.key.keysym.sym)
         {
         case SDLK_DOWN:
+            Mix_PlayChannel(-1, music[MOVE], 0);
             if(this->board.checkBorder(x1, y1 + 1))
             {
                 this->board.x = x1;
@@ -254,6 +285,7 @@ void Game::keyPresses()
             }
             break;
         case SDLK_LEFT:
+            Mix_PlayChannel(-1, music[MOVE], 0);
             if(this->board.checkBorder(x1 - 1, y1))
             {
                 bool ok = true;
@@ -276,6 +308,7 @@ void Game::keyPresses()
             }
             break;
         case SDLK_RIGHT:
+            Mix_PlayChannel(-1, music[MOVE], 0);
             if(this->board.checkBorder(x1 + 1, y1))
             {
                 bool ok = true;
@@ -296,6 +329,7 @@ void Game::keyPresses()
             }
             break;
         case SDLK_UP:
+            Mix_PlayChannel(-1, music[ROTATE], 0);
             if(this->board.checkRotate(x1, y1) && this->board.block.curr_block != 2) 
             {
                 this->board.block.rotate();
@@ -303,6 +337,7 @@ void Game::keyPresses()
             }
             break;
         case SDLK_SPACE:
+            Mix_PlayChannel(-1, music[MOVE], 0);
             for(int i = 1; i <= 20; i++) 
             if(this->board.checkBorder(x1, i)) y1 = i; else break;
             this->board.y = y1;
@@ -318,6 +353,7 @@ void Game::keyPresses()
 
 }
 
+// kiểm tra xem có gameover chưa
 int Game::checkGameOver()
 {
     for(int i = 0; i < 4; i++)
@@ -336,6 +372,8 @@ int Game::checkGameOver()
     }
     return this->status;
 }
+
+// cho khối block rơi thêm xuống một hàng
 void Game::downBlock()
 {
     this->curr_time = SDL_GetTicks();
@@ -345,6 +383,7 @@ void Game::downBlock()
         {
             this->board.y = this->board.y + 1;
             this->board.block.updateXY(this->board.x, this->board.y);
+            Mix_PlayChannel(-1, music[MOVE], 0);
         }
         else
         {
@@ -361,11 +400,13 @@ void Game::downBlock()
     }
 }
 
+// update số dòng full các ô gạch tạo được
 void Game::updateLine(int val)
 {
     this->cnt_line += val;
 }
 
+// update số điểm đạt được
 void Game::updateScore(int val)
 {
     switch (val)
@@ -386,6 +427,8 @@ void Game::updateScore(int val)
         break;
     }
 }
+
+// hiện thị số dòng tạo được lên phần line trong ô score
 void Game::showLine()
 {
     string s = to_string(this->cnt_line);
@@ -395,6 +438,8 @@ void Game::showLine()
     this->line.draw();
 
 }
+
+// hiện thị số điểm đạt được trong phần score trong ô score
 void Game::showScore()
 {
     string s = to_string(this->cnt_score);
@@ -403,6 +448,8 @@ void Game::showScore()
     this->score.setDst({this->arr_object[SCORE].dst.x + (250 - this->score.dst.w) / 2, YPOS + 111, this->score.dst.w, this->score.dst.h});
     this->score.draw();
 }
+
+// vẽ màn hình gameover
 void Game::showScoreGameOver()
 {
     string s = to_string(this->cnt_score);
@@ -413,6 +460,8 @@ void Game::showScoreGameOver()
     Game::showScore();
     Game::showLine();
 }
+
+// xử lý sự kiện e.type == SDL_QUIT
 void Game::handleEvent()
 {
     if(e.type == SDL_QUIT)
@@ -420,8 +469,12 @@ void Game::handleEvent()
         is_running = false;
     }
 }
+
+// xử lý trạng thái game
+// ví dụ như: game_over, game_playing, tạo block mới
 void Game::handleStatus()
 {
+    // tạo block mới
     if(this->board.new_block) 
     {
         this->board.block = this->board.next_block;
@@ -429,6 +482,7 @@ void Game::handleStatus()
         this->board.new_block = false;
         this->board.x = DIS_X, this->board.y = DIS_Y;
     }
+
     if(Game::status == GAME_PLAYING) 
     {
         SDL_PollEvent(&e);
@@ -437,6 +491,7 @@ void Game::handleStatus()
             this->status = GAME_OVER;
         }
         int val = this->board.checkCreateRow();
+        if(val) Mix_PlayChannel(-1, music[LINECLEAR], 0);
         Game::updateLine(val);
         Game::updateScore(val);
         Game::showScore();
@@ -485,6 +540,7 @@ void Game::handleStatus()
             if(SDL_PointInRect(&mousePoint, &home.dst))
             {
                 Game::status = GAME_PRE_PLAY;
+                Mix_PlayChannel(-1, music[CLICK], 0);
             }
         }
         

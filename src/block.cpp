@@ -1,4 +1,6 @@
 #include "header/block.hpp"
+
+// khởi tạo một khối block
 Block::Block()
 {
     this->curr_block = rand() % 7;
@@ -22,6 +24,7 @@ Block::Block()
     this->updateXY(DIS_X, DIS_Y);
 }
 
+// hàm xoay block
 void Block::rotate()
 {
     int temp_matrix[4][4];
@@ -32,6 +35,7 @@ void Block::rotate()
     for(int j = 0; j < 4; j++) this->matrix[i][j] = temp_matrix[3 - j][i];
 }
 
+// update tọa độ của các ô brick trong bảng chơi
 void Block::updateXY(int x, int y)
 {
     for(int i = 0; i < 4; i++)

@@ -4,6 +4,7 @@ Board::Board()
 {
     
 }
+// khởi tạo những thuộc tính cần thiết cho bảng chơi như ô gạch, tọa độ render của các ô trong bảng 
 void Board::Init(SDL_Renderer* renderer)
 {
     // load brick
@@ -23,6 +24,7 @@ void Board::Init(SDL_Renderer* renderer)
 
 }
 
+// reset lại bảng về ban đầu khi chưa chơi
 void Board::resetBoard()
 {
     for(int i = 1; i <= 20; i++)
@@ -32,6 +34,8 @@ void Board::resetBoard()
     this->block = Block();
     this->next_block = Block();
 }
+
+// render bảng lên renderer
 void Board::showBoard()
 {
     for(int i = 1; i <= 20; i++)
@@ -45,6 +49,8 @@ void Board::showBoard()
             }
     }
 }
+
+// check xem block có thể render tại ô từ x, y -> x + 3, y + 3 trong bảng không
 bool Board::checkBorder(int x, int y)
 {
     for(int i = 0; i < 4; i++)
@@ -58,6 +64,7 @@ bool Board::checkBorder(int x, int y)
     return true;
 }
 
+// check xem block có thể xoay được không
 bool Board::checkRotate(int x, int y)
 {
     int tempMatrix[4][4];
@@ -75,6 +82,7 @@ bool Board::checkRotate(int x, int y)
     
 }
 
+// check xem block có thể rơi xuống thêm không
 bool Board::checkCanDown(int x, int y)
 {
     for(int i = 0; i < 4; i++)
@@ -87,6 +95,8 @@ bool Board::checkCanDown(int x, int y)
         }
     return true;
 }
+
+// renderer block lên renderer
 void Board::showBlock()
 {
     //show brick is running
@@ -178,6 +188,7 @@ void Board::showBlock()
 
 }
 
+// update lại bảng chơi
 void Board::updateBoard()
 {
     for(int i = 0; i < 4; i++)
@@ -194,6 +205,8 @@ void Board::updateBoard()
     }
 
 }
+
+// check xem có tạo được hàng không có ô trống không
 int Board::checkCreateRow()
 {   
     int cnt = 0; int res = 0;
@@ -215,6 +228,8 @@ int Board::checkCreateRow()
     res += cnt;
     return res;
 }
+
+// xóa những hàng đã được lấp đầy
 void Board::deleteRow(int cnt, int xpos)
 {   
     for(int i = xpos; i > 0; i--)

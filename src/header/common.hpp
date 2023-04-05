@@ -26,6 +26,7 @@ const int CAT = 4;
 const int BOARD = 5;
 const int BRICK = 6;
 
+// types of block
 const int TYPE_BLOCK[7][4] = {
                                 {2, 6, 10, 11}, //L
                                 {3, 7, 10, 11}, //_|
@@ -36,12 +37,13 @@ const int TYPE_BLOCK[7][4] = {
                                 {2, 6, 10, 14}, //|
 };
 
-
+// status in game
 const int GAME_PLAYING = 0;
 const int GAME_PRE_PLAY = 1;
 const int GAME_OVER = 2;
 
 
+// pre_play_game
 const int NEW_ELEMENT_VIEW = 10;
 const int BOARD_BACKGROUND = 0;
 const int PLAY = 1;
@@ -55,7 +57,12 @@ const int LEVEL3_LIGHT = 8;
 const int TETRIS = 9;
 
 
-const int NEW_ELEMENT_MUSIC = 3;
+// music
+const int NEW_ELEMENT_MUSIC = 7;
 const int BACKGROUND_MUSIC = 0;
 const int HELLO_MUSIC = 1;
 const int GAMEOVER = 2;
+const int MOVE = 3;
+const int ROTATE = 4;
+const int LINECLEAR = 5;
+const int CLICK = 6;
