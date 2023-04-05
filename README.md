@@ -27,13 +27,10 @@
 
     + Phím tắt:
         
-        Phím mũi tên lên: xoay khối.
-        
-        Phím mũi tên trái: di chuyển sang trái.
-        
-        Phím mũi tên phải: di chuyển sang phải.
-        
-        Phím mũi tên xuống: tăng tốc độ rơi.
+        + Phím mũi tên lên: xoay khối.
+        + Phím mũi tên trái: di chuyển sang trái.
+        + Phím mũi tên phải: di chuyển sang phải.
+        + Phím mũi tên xuống: tăng tốc độ rơi.
 
 - Cấu trúc Tetris game:
     
@@ -48,10 +45,8 @@
     + file main.cpp là để khởi tạo và chạy vòng lặp game
     + file game là để xử lý những thứ liên quan đến game: 
         
-        ví dụ như: trước khi chơi game thì có những phương thức, thuộc tính gì.
-                     
-                     trong khi chơi thì có những sự kiện, hàm xử lý gì.
-                     
+        ví dụ như: trước khi chơi game thì có những phương thức, thuộc tính gì, trong khi chơi thì có những sự kiện, hàm xử lý gì.
+
     + file object là thiết lập các thuộc tính, phương thức của một đối tượng như: setRenderer, loadTexture...
     + file board là thiết lập các thuộc tính, phương thức của bảng chơi như: updateBoard, showBoard, resetBoard...
     + file block là thiết lập các thuộc tính, phương thức của các khối block như: khởi tạo, rotate
