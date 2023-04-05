@@ -12,6 +12,7 @@
         Mục tiêu của trò chơi là di chuyển các khối gạch đang rơi từ từ xuống trong kích thước hình chữ nhật 20 hàng x 10 cột (trên màn hình). Chỗ nào có gạch rồi thì không di chuyển được tới vị trí đó. Người chơi xếp những khối hình sao cho khối hình lấp đầy 1 hàng ngang để ghi điểm và hàng ngang ấy sẽ biến mất.
 
         Ta có ba bảng:
+        
             Một bảng chính gồm 22 * 12 dòng. Ta chỉ thể hiện ra 20 * 10 dòng. Còn lại hai dòng và hai cột trên cùng và dưới cùng được dùng là biên giới của bảng để check việc di chuyển của các block.
 
             Một bảng Next: thể hiện khối block tiếp theo sẽ xuất hiện.
