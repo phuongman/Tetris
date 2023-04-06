@@ -53,8 +53,9 @@ void Board::showBoard()
 // check xem block có thể render tại ô từ x, y -> x + 3, y + 3 trong bảng không
 bool Board::checkBorder(int x, int y)
 {
-    for(int i = 0; i < 4; i++)
-    for(int j = 0; j < 4; j++) 
+    int length = LENGTH_BLOCK[this->block.curr_block];
+    for(int i = 0; i < length; i++)
+    for(int j = 0; j < length; j++) 
     if(this->block.matrix[i][j])
     {
         if(y + i > 20) return false;
@@ -67,10 +68,11 @@ bool Board::checkBorder(int x, int y)
 // check xem block có thể xoay được không
 bool Board::checkRotate(int x, int y)
 {
+    int length = LENGTH_BLOCK[this->block.curr_block];
     int tempMatrix[4][4];
-    for(int i = 0; i < 4; i++)
-    for(int j = 0; j < 4; j++) {
-        tempMatrix[i][j] = this->block.matrix[j][3 - i];
+    for(int i = 0; i < length; i++)
+    for(int j = 0; j < length; j++) {
+        tempMatrix[i][j] = this->block.matrix[j][length - 1 - i];
         if(tempMatrix[i][j])
         {
             if(y + i > 20) return false;
@@ -85,8 +87,9 @@ bool Board::checkRotate(int x, int y)
 // check xem block có thể rơi xuống thêm không
 bool Board::checkCanDown(int x, int y)
 {
-    for(int i = 0; i < 4; i++)
-    for(int j = 0; j < 4; j++)
+    int length = LENGTH_BLOCK[this->block.curr_block];
+    for(int i = 0; i < length; i++)
+    for(int j = 0; j < length; j++)
         if(this->block.matrix[i][j])
         {
             if(y + i > 20) return false;
@@ -102,9 +105,10 @@ void Board::showBlock()
     //show brick is running
     // this->block.xpos = XPOS + (this->x - 1) * LENGTH_SQUARE;
     // this->block.ypos = YPOS + (this->y - 1) * LENGTH_SQUARE;
-    for(int i = 0; i < 4; i++)
+    int length = LENGTH_BLOCK[this->block.curr_block];  
+    for(int i = 0; i < length; i++)
     {
-        for(int j = 0; j < 4; j++)
+        for(int j = 0; j < length; j++)
         {
             if(this->block.matrix[i][j])
             {
@@ -124,9 +128,9 @@ void Board::showBlock()
     int xpos1 = XPOS + (this->x - 1) * LENGTH_SQUARE;
     int ypos1 = YPOS + (y1 - 1) * LENGTH_SQUARE;
     if(y1)
-    for(int i = 0; i < 4; i++)
+    for(int i = 0; i < length; i++)
     {
-        for(int j = 0; j < 4; j++)
+        for(int j = 0; j < length; j++)
         
             if(this->block.matrix[i][j])
             {
@@ -149,7 +153,7 @@ void Board::showBlock()
             ypos1 = YPOS + 35 * 5 - 5;
             break;
         case 2:
-            xpos1 = SCREEN_WIDTH - 220;
+            xpos1 = SCREEN_WIDTH - 220 + 33;
             ypos1 = YPOS + 185;
             break;
         case 3:
@@ -157,11 +161,11 @@ void Board::showBlock()
             ypos1 = YPOS + 35 * 5.4;
             break;
         case 4:
-            xpos1 = SCREEN_WIDTH - 300 + 62;
+            xpos1 = SCREEN_WIDTH - 300 + 95;
             ypos1 = YPOS + 35 * 5.4;
             break;
         case 5:
-            xpos1 = SCREEN_WIDTH - 300 + 81;
+            xpos1 = SCREEN_WIDTH - 300 + 114;
             ypos1 = YPOS + 35 * 5 - 5;
             break;
         case 6:
@@ -172,9 +176,9 @@ void Board::showBlock()
             break;
     }
 
-    for(int i = 0; i < 4; i++)
+    for(int i = 0; i < length; i++)
     {
-        for(int j = 0; j < 4; j++)
+        for(int j = 0; j < length; j++)
         {
             if(this->next_block.matrix[i][j])
             {
@@ -191,9 +195,10 @@ void Board::showBlock()
 // update lại bảng chơi
 void Board::updateBoard()
 {
-    for(int i = 0; i < 4; i++)
+    int length = LENGTH_BLOCK[this->block.curr_block];  
+    for(int i = 0; i < length; i++)
     {
-        for(int j = 0; j < 4; j++)
+        for(int j = 0; j < length; j++)
         {
             if(this->block.matrix[i][j])
             {

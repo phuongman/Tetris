@@ -267,11 +267,12 @@ void Game::display()
 // xử lý trạng thái các nút bấm khi chơi game như: up, down, left, right, space
 void Game::keyPresses()
 {
+    int length = LENGTH_BLOCK[this->board.block.curr_block];
     int x1 = this->board.x, y1 = this->board.y;
     int temp_m[4][4];
-    for(int i = 0; i < 4; i++)
-    for(int j = 0; j < 4; j++) temp_m[i][j] = this->board.block.matrix[i][j];
-    if(e.type == SDL_KEYDOWN)
+    for(int i = 0; i < length; i++)
+    for(int j = 0; j < length; j++) temp_m[i][j] = this->board.block.matrix[i][j];
+    if(e.type == SDL_KEYUP)
     {
         switch (e.key.keysym.sym)
         {
@@ -289,14 +290,14 @@ void Game::keyPresses()
             if(this->board.checkBorder(x1 - 1, y1))
             {
                 bool ok = true;
-                for(int i = 0; i < 4; i++)
-                for(int j = 0; j < 4; j++)
+                for(int i = 0; i < length; i++)
+                for(int j = 0; j < length; j++)
                 if(this->board.block.matrix[i][j] && j - 1 < 0) {ok = false; break;}
                 if(ok) 
                 {
                     
-                    for(int i = 0; i < 4; i++)
-                    for(int j = 0; j < 4; j++) this->board.block.matrix[i][j] = temp_m[i][(j + 1) % 4];
+                    for(int i = 0; i < length; i++)
+                    for(int j = 0; j < length; j++) this->board.block.matrix[i][j] = temp_m[i][(j + 1) % length];
    
                 }
                 else
@@ -312,13 +313,13 @@ void Game::keyPresses()
             if(this->board.checkBorder(x1 + 1, y1))
             {
                 bool ok = true;
-                for(int i = 0; i < 4; i++)
-                for(int j = 0; j < 4; j++)
-                if(this->board.block.matrix[i][j] && j + 1 > 3) {ok = false; break;}
+                for(int i = 0; i < length; i++)
+                for(int j = 0; j < length; j++)
+                if(this->board.block.matrix[i][j] && j + 1 > length - 1) {ok = false; break;}
                 if(ok) 
                 {
-                    for(int i = 0; i < 4; i++)
-                    for(int j = 3; j >= 0; j--) this->board.block.matrix[i][j] =  temp_m[i][(j - 1 + 4) % 4];
+                    for(int i = 0; i < length; i++)
+                    for(int j = length - 1; j >= 0; j--) this->board.block.matrix[i][j] =  temp_m[i][(j - 1 + length) % length];
                 }
                 else
                 {
@@ -381,7 +382,7 @@ void Game::downBlock()
         this->prev_time = this->curr_time;
         if(this->board.checkCanDown(this->board.x, this->board.y + 1)) 
         {
-            this->board.y = this->board.y + 1;
+            this->board.y += 1;
             this->board.block.updateXY(this->board.x, this->board.y);
             Mix_PlayChannel(-1, music[MOVE], 0);
         }

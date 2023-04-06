@@ -28,15 +28,15 @@ const int BRICK = 6;
 
 // types of block
 const int TYPE_BLOCK[7][4] = {
-                                {2, 6, 10, 11}, //L
-                                {3, 7, 10, 11}, //_|
-                                {2, 3, 6, 7}, //O
-                                {2, 3, 5, 6}, //S
-                                {2, 3, 7, 8}, //2
-                                {2, 6, 7, 10}, //-|
+                                {2, 5, 8, 9}, //L
+                                {3, 6, 8, 9}, //_|
+                                {1, 2, 3, 4}, //O
+                                {2, 3, 4, 5}, //S
+                                {1, 2, 5, 6}, //2
+                                {2, 4, 5, 8}, //-|
                                 {2, 6, 10, 14}, //|
 };
-
+const int LENGTH_BLOCK[7] = {3, 3, 2, 3, 3, 3, 4};
 // status in game
 const int GAME_PLAYING = 0;
 const int GAME_PRE_PLAY = 1;
