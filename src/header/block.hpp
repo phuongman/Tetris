@@ -1,8 +1,10 @@
 #pragma once
-#include <iostream>
+#include <bits/stdc++.h>
 #include "SDL2/SDL.h"
 #include "common.hpp"
 using namespace std;
+
+//mt19937 rd(chrono::steady_clock::now().time_since_epoch().count());
 
 class Block
 {

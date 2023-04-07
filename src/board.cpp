@@ -141,7 +141,7 @@ void Board::showBlock()
     }
 
     //show next brick
-
+    length = LENGTH_BLOCK[this->next_block.curr_block];
     switch (this->next_block.curr_block)
     {
         case 0:
