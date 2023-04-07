@@ -1,4 +1,5 @@
 #include "header/block.hpp"
+mt19937 rd(chrono::steady_clock::now().time_since_epoch().count());
 
 // khởi tạo một khối block
 Block::Block()
