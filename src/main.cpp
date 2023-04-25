@@ -20,13 +20,12 @@ int main(int argc, char* args[])
     }
     //Initialize SDL_mixer
     if( Mix_OpenAudio( 44100, MIX_DEFAULT_FORMAT, 2, 2048 ) < 0 )
-    {
+    {.b
         printf( "SDL_mixer could not initialize! SDL_mixer Error: %s\n", Mix_GetError() );
     }
 
-    
     Game game("Tetris");
-    //Mix_PlayChannel(-1, game.music[BACKGROUND_MUSIC], -1); 
+    Mix_PlayChannel(-1, game.music[BACKGROUND_MUSIC], -1); 
     Uint32 start = SDL_GetTicks();
     while(game.running())
     {
