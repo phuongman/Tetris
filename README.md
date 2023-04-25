@@ -1,4 +1,4 @@
-# codelaigame
+# Tetris
 
 - Ngôn ngữ: C++, SDL
 - Cách download và chạy code
