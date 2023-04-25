@@ -14,7 +14,7 @@ Game::Game(const char* title)
     if(renderer == NULL)
     {
         cout << "Can't not create a renderer" << endl;
-    }
+    } 
 
     font = TTF_OpenFont("SDL/font/OpenSans-SemiboldItalic.ttf", 33);
     SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
@@ -99,7 +99,7 @@ void Game::configResource()
 
     arr_view[BOARD_BACKGROUND].setDst({(SCREEN_WIDTH - 500) / 2, YPOS, 500, 760});
     arr_view[TETRIS].setDst({(SCREEN_WIDTH - 300) / 2, YPOS + 15, 300, 300});
-    arr_view[PLAY].setDst({(SCREEN_WIDTH - 350) / 2, YPOS + 350, 350, 135});
+    arr_view[PLAY].setDst({(SCREEN_WIDTH - 330) / 2, YPOS + 350, 330, 120});
     arr_view[PLAY_LIGHT].setDst(arr_view[PLAY].dst);
     arr_view[LEVEL1].setDst({(SCREEN_WIDTH - 330) / 2, YPOS + 520, 330, 120});
     arr_view[LEVEL1_LIGHT].setDst(arr_view[LEVEL1].dst);
@@ -192,8 +192,8 @@ void Game::handleEventInView()
                 hello.draw();
                 Game::display();
                 Mix_PlayChannel(-1, music[CLICK], 0);
-                Mix_PlayChannel(-1, music[HELLO_MUSIC], 0);
-                SDL_Delay(5000);
+                // Mix_PlayChannel(-1, music[HELLO_MUSIC], 0);
+                SDL_Delay(2000);
                 Game::status = GAME_PLAYING;
             }
 
