@@ -2,8 +2,6 @@
 
 - Ngôn ngữ: C++, SDL
 - Cách download và chạy code
-    + Cài Vscode
-    + Cài C/C++
     + Cài git
     + Clone repo về máy
     + Chạy file Tetris.exe
