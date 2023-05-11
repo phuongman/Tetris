@@ -1,11 +1,11 @@
 # Tetris
 
-- Ngôn ngữ: C++, SDL
-- Cách download và chạy code
+# Ngôn ngữ: C++, SDL
+# Cách download và chạy code
     + Cài git
     + Clone repo về máy
     + Chạy file Tetris.exe
-- About Tetris Game
+# About Tetris Game
     + Tham khảo https://tetris.com/
     + Cách chơi: 
         Mục tiêu của trò chơi là di chuyển các khối gạch đang rơi từ từ xuống trong kích thước hình chữ nhật 20 hàng x 10 cột (trên màn hình). Chỗ nào có gạch rồi thì không di chuyển được tới vị trí đó. Người chơi xếp những khối hình sao cho khối hình lấp đầy 1 hàng ngang để ghi điểm và hàng ngang ấy sẽ biến mất.
@@ -31,7 +31,7 @@
         + Phím mũi tên phải: di chuyển sang phải.
         + Phím mũi tên xuống: tăng tốc độ rơi.
 
-- Cấu trúc Tetris game:
+# Cấu trúc Tetris game:
     
     + Các file header là để khai báo
     + Các file .cpp là để viết các hàm
@@ -39,14 +39,15 @@
     + Folder image chứa những ảnh cần cho game
     + Folder music chứa những âm thanh cần cho game
 
-    // gọi tắt các file x.cpp và x.hpp là x 
     + file common.hpp là để khai báo những biến dùng cho toàn cục.
     + file main.cpp là để khởi tạo và chạy vòng lặp game
-    + file game là để xử lý những thứ liên quan đến game: 
+    + file game.hpp là để khai báo biến và hàm xử lý những thứ liên quan đến game: 
         
         ví dụ như: trước khi chơi game thì có những phương thức, thuộc tính gì, trong khi chơi thì có những sự kiện, hàm xử lý gì.
 
-    + file object là thiết lập các thuộc tính, phương thức của một đối tượng như: setRenderer, loadTexture...
-    + file board là thiết lập các thuộc tính, phương thức của bảng chơi như: updateBoard, showBoard, resetBoard...
-    + file block là thiết lập các thuộc tính, phương thức của các khối block như: khởi tạo, rotate
+    + file object.hpp là thiết lập các thuộc tính, phương thức của một đối tượng như: setRenderer, loadTexture...
+    + file board.hpp là thiết lập các thuộc tính, phương thức của bảng chơi như: updateBoard, showBoard, resetBoard...
+    + file block.hpp là thiết lập các thuộc tính, phương thức của các khối block như: khởi tạo, rotate
+    
+    + Các file .cpp tương ứng là viết những đoạn code xử lý các hàm được khai báo trong file .hpp tương ứng
     
