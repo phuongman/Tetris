@@ -1,11 +1,11 @@
 # Tetris
 
-# Ngôn ngữ: C++, SDL
-# Cách download và chạy code
+## Ngôn ngữ: C++, SDL
+## Cách download và chạy code
     + Cài git
     + Clone repo về máy
     + Chạy file Tetris.exe
-# About Tetris Game
+## About Tetris Game
     + Tham khảo https://tetris.com/
     + Cách chơi: 
         Mục tiêu của trò chơi là di chuyển các khối gạch đang rơi từ từ xuống trong kích thước hình chữ nhật 20 hàng x 10 cột (trên màn hình). Chỗ nào có gạch rồi thì không di chuyển được tới vị trí đó. Người chơi xếp những khối hình sao cho khối hình lấp đầy 1 hàng ngang để ghi điểm và hàng ngang ấy sẽ biến mất.
@@ -31,7 +31,7 @@
         + Phím mũi tên phải: di chuyển sang phải.
         + Phím mũi tên xuống: tăng tốc độ rơi.
 
-# Cấu trúc Tetris game:
+## Cấu trúc Tetris game:
     
     + Các file header là để khai báo
     + Các file .cpp là để viết các hàm
