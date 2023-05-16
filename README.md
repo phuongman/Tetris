@@ -1,5 +1,7 @@
 # Tetris
 
+![feature-image] (./image/background2.png)
+    
 ## Ngôn ngữ: C++, SDL
 ## Cách download và chạy code
     + Cài git
