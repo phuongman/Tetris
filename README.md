@@ -1,6 +1,9 @@
 # Tetris
 
 ![feature-image](./image/background2.png)
+
+## Link video demo game 
+    https://drive.google.com/file/d/15uc0xlzj75Qb8enYZVqEODrEwTBEC5qn/view?usp=sharing
     
 ## Ngôn ngữ: C++, SDL
 ## Cách download và chạy code
